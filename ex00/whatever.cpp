@@ -6,11 +6,12 @@
 /*   By: tblaudez <tblaudez@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/05 10:57:26 by tblaudez      #+#    #+#                 */
-/*   Updated: 2020/10/05 11:35:38 by tblaudez      ########   odam.nl         */
+/*   Updated: 2020/10/09 15:54:44 by tblaudez      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
+#include <iostream> // cout, boolalpha
+
 
 template <typename T>
 void	swap(T& x, T& y) {
@@ -32,20 +33,20 @@ T const&	max(T const& x, T const& y) {
 	return (x > y ? x : y);
 }
 
-class Test {
-public:
-	Test(int x) : x(x) {}
+struct Test {
+
+	Test(int x=0) : x(x) {}
 	~Test() {}
 
-	bool	operator<(Test const& rhs) const { return (this->x < rhs.x); }
+	bool	operator<(Test const& rhs) const { return this->x < rhs.x; }
 	bool	operator>(Test const& rhs) const { return !(this->x < rhs.x); }
-	bool	operator==(Test const& rhs) const { return (this->x == rhs.x); }
+	bool	operator==(Test const& rhs) const { return this->x == rhs.x; }
 
 	int x;
 };
 
 
-int	main2(void) {
+int	main(void) {
 
 	std::cout << std::boolalpha;
 	{
@@ -92,8 +93,9 @@ int	main2(void) {
 		}
 		{
 			double foo = 42.0, bar = 42.0;
+			std::cout << "foo = 42,0, bar = 42.0" << std::endl;
 			std::cout << "&bar = " << &bar << std::endl;
-			std::cout << "&(::max<double>(42.0, 42.0)): " << &(::max<double>(foo, bar)) << std::endl;
+			std::cout << "&(::max<double>(foo, bar)): " << &(::max<double>(foo, bar)) << std::endl;
 		}
 		{
 			Test foo(42), bar(21);
@@ -125,27 +127,6 @@ int	main2(void) {
 			std::cout << "::min<Test>(foo(42), bar(21)): " << ::min<Test>(foo, bar).x << std::endl;
 		}
 	}
-
-	return 0;
-}
-
-
-int main(void) {
-	int a = 2;
-	int b = 3;
-
-	::swap( a, b );
-	std::cout << "a = " << a << ", b = " << b << std::endl;
-	std::cout << "min( a, b ) = " << ::min( a, b ) << std::endl;
-	std::cout << "max( a, b ) = " << ::max( a, b ) << std::endl;
-
-	std::string c = "chaine1";
-	std::string d = "chaine2";
-
-	::swap(c, d);
-	std::cout << "c = " << c << ", d = " << d << std::endl;
-	std::cout << "min( c, d ) = " << ::min( c, d ) << std::endl;
-	std::cout << "max( c, d ) = " << ::max( c, d ) << std::endl;
 
 	return 0;
 }
