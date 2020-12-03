@@ -6,127 +6,62 @@
 /*   By: tblaudez <tblaudez@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/05 10:57:26 by tblaudez      #+#    #+#                 */
-/*   Updated: 2020/10/09 15:54:44 by tblaudez      ########   odam.nl         */
+/*   Updated: 2020/12/03 15:39:45 by tblaudez      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream> // cout, boolalpha
+#include <iostream> // cout
+
+class	Test {
+public:
+	Test(int n=0) : n(n) {}
+	~Test() {}
+
+	bool	operator<(Test const& rhs) const { return this->n < rhs.n; }
+	bool	operator<=(Test const& rhs) const { return this->n <= rhs.n; }
+	bool	operator>(Test const& rhs) const { return this->n > rhs.n; }
+	bool	operator>=(Test const& rhs) const { return this->n >= rhs.n; }
+	bool	operator==(Test const& rhs) const { return this->n == rhs.n; }
+	bool	operator!=(Test const& rhs) const { return this->n != rhs.n; }
+
+	int n;
+};
+
+std::ostream&	operator<<(std::ostream& o, const Test& i) {
+	return o << "Test(" << i.n << ")";
+}
 
 
 template <typename T>
 void	swap(T& x, T& y) {
-
 	T tmp = x;
 	x = y;
 	y = tmp;
 }
 
 template <typename T>
-T const&	min(T const& x, T const& y) {
-
+inline const T&	min(const T& x, const T& y) {
 	return (x < y ? x : y);
 }
 
 template <typename T>
-T const&	max(T const& x, T const& y) {
-
+inline const T&	max(const T& x, const T& y) {
 	return (x > y ? x : y);
 }
 
-struct Test {
-
-	Test(int x=0) : x(x) {}
-	~Test() {}
-
-	bool	operator<(Test const& rhs) const { return this->x < rhs.x; }
-	bool	operator>(Test const& rhs) const { return !(this->x < rhs.x); }
-	bool	operator==(Test const& rhs) const { return this->x == rhs.x; }
-
-	int x;
-};
-
-
 int	main(void) {
 
-	std::cout << std::boolalpha;
-	{
-		std::cout << "---------- Swap ----------" << std::endl;
-		{
-			int foo = 42, bar = 21;
-			std::cout << "foo<int>: " << foo << " | bar<int>: " << bar << std::endl;
-			::swap<int>(foo, bar);
-			std::cout << "foo<int>: " << foo << " | bar<int>: " << bar << std::endl;
-		}
-		{
-			float foo = 42.42f, bar = 21.21f;
-			std::cout << "foo<float>: " << foo << "f | bar<float>: " << bar << "f" << std::endl;
-			::swap<float>(foo, bar);
-			std::cout << "foo<float>: " << foo << "f | bar<float>: " << bar << "f" << std::endl;
-		}
-		{
-			bool foo = true, bar = false;
-			std::cout << "foo<bool>: " << foo << " | bar<bool>: " << bar << std::endl;
-			::swap<bool>(foo, bar);
-			std::cout << "foo<bool>: " << foo << " | bar<bool>: " << bar << std::endl;
-		}
-		{
-			Test foo(42), bar(21);
-			std::cout << "foo<Test>: " << foo.x << " | bar<Test>: " << bar.x << std::endl;
-			::swap<Test>(foo, bar);
-			std::cout << "foo<Test>: " << foo.x << " | bar<Test>: " << bar.x << std::endl;
-		}
-	}
+	// Test 	A(21), B(42);
+	// int		A = 21, B = 42;
+	// float	A = 21.2121f, B = 42.4242f;
+	std::string	A = "Hello", B = "Hellooooooo";
 
-	{
-		std::cout << "---------- max ----------" << std::endl;
-		{
-			int foo = 42, bar = 21;
-			std::cout << "::max<int>(42, 21): " << ::max<int>(foo, bar) << std::endl;
-		}
-		{
-			float foo = 42.42f, bar = 21.21f;
-			std::cout << "::max<float>(42.42f, 21.21f): " << ::max<float>(foo, bar) << "f" << std::endl;
-		}
-		{
-			bool foo = false, bar = true;
-			std::cout << "::max<bool>(false, true): " << ::max<bool>(foo, bar) << std::endl;
-		}
-		{
-			double foo = 42.0, bar = 42.0;
-			std::cout << "foo = 42,0, bar = 42.0" << std::endl;
-			std::cout << "&bar = " << &bar << std::endl;
-			std::cout << "&(::max<double>(foo, bar)): " << &(::max<double>(foo, bar)) << std::endl;
-		}
-		{
-			Test foo(42), bar(21);
-			std::cout << "::max<Test>(foo(42), bar(21)): " << ::max<Test>(foo, bar).x << std::endl;
-		}
-	}
+	std::cout << "A: " << A << " | B: " << B << std::endl;
+	::swap(A, B);
+	std::cout << "A: " << A << " | B: " << B << std::endl;
 
-	{
-		std::cout << "---------- min ----------" << std::endl;
-		{
-			int foo = 42, bar = 21;
-			std::cout << "::min<int>(42, 21): " << ::min<int>(foo, bar) << std::endl;
-		}
-		{
-			float foo = 42.42f, bar = 21.21f;
-			std::cout << "::min<float>(42.42f, 21.21f): " << ::min<float>(foo, bar) << "f" << std::endl;
-		}
-		{
-			bool foo = false, bar = true;
-			std::cout << "::min<bool>(false, true): " << ::min<bool>(foo, bar) << std::endl;
-		}
-		{
-			double foo = 42.0, bar = 42.0;
-			std::cout << "&bar = " << &bar << std::endl;
-			std::cout << "&(::min<double>(42.0, 42.0)): " << &(::min<double>(foo, bar)) << std::endl;
-		}
-		{
-			Test foo(42), bar(21);
-			std::cout << "::min<Test>(foo(42), bar(21)): " << ::min<Test>(foo, bar).x << std::endl;
-		}
-	}
+	std::cout << "min(A, B): " << ::min(A, B) << std::endl;
+	std::cout << "max(A, B): " << ::max(A, B) << std::endl;
 
 	return 0;
 }
